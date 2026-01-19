@@ -9,37 +9,37 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.demo.form.AdminForm;
 import com.example.demo.service.AdminService;
-
+@RequestMapping("/admins")
 @Controller
-public class AdminController {
+public class AdminRegisterController {
 
 	@Autowired
 	private AdminService adminService;
 
-	@GetMapping("/admins")
+	@GetMapping("/new")
 	public String admin(Model model) {
 		model.addAttribute("adminForm", new AdminForm());
 		model.addAttribute("stores", adminService.getStores());
 		model.addAttribute("roles", adminService.getRoles());
 		model.addAttribute("permissions", adminService.getPermissions());
 
-		return "admins";
+		return "AdminRegister";
 	}
 
-	@PostMapping("/admins")
-	public String admin(@Validated @ModelAttribute("adminForm") AdminForm adminForm, BindingResult errorResult,
+	@PostMapping("/new")
+	public String admin(@Validated  AdminForm adminForm, BindingResult errorResult,
 			HttpServletRequest request, Model model) {
 
 		if (errorResult.hasErrors()) {
 			model.addAttribute("stores", adminService.getStores());
 			model.addAttribute("roles", adminService.getRoles());
 			model.addAttribute("permissions", adminService.getPermissions());
-			return "admins";
+			return "AdminRegister";
 		}
 
 		HttpSession session = request.getSession();
@@ -48,7 +48,7 @@ public class AdminController {
 		return "redirect:/admins/confirm";
 	}
 
-	@GetMapping("/admins/confirm")
+	@GetMapping("/confirm")
 	public String confirm(Model model, HttpServletRequest request) {
 		   System.out.println("confirm に来た");
 
@@ -64,11 +64,11 @@ public class AdminController {
 	    model.addAttribute("permission",
 	        adminService.getPermissionById(adminForm.getPermissionId()));
 
-		return "confirmation";
+		return "AdminConfirmation";
 
 	}
 
-	@PostMapping("/admins/register")
+	@PostMapping("/register")
 	public String register(Model model, HttpServletRequest request) {
 
 		HttpSession session = request.getSession();

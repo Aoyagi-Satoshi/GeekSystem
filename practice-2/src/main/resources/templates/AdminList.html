@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>管理者一覧</title>
+</head>
+
+<body>
+	<h1>管理者一覧</h1>
+	<table border="1">
+		<tr>
+			<th>管理者ID</th>
+			<th>店舗名</th>
+			<th>名前</th>
+			<th>作成日時</th>
+			<th>更新日時</th>
+		</tr>
+
+		<tr th:each="admin : ${adminlist}">
+			<td th:text="${adminlist.id}"></td>
+			<td th:text="${store.storeName}"></td>
+			<td th:text="${adminlist.lastName},${adminlist.firstName}"></td>
+			<td th:text="${#dates.format(admin.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+			<td th:text="${#dates.format(admin.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+			<td>
+				<a th:href="@{/admin/admins/{id}(id=${admin.id})}">詳細</a>
+				<a th:href="@{/admin/admins/{id}/edit(id=${admin.id})}">編集</a>
+				<a th:href="@{/admin/admins/{id}/delete(id=${admin.id})}"
+					onclick="return confirm('本当に削除しますか？');">削除</a>
+			</td>
+		</tr>
+	</table>
+	<a th:href="@{/login}">ログアウト</a>
+</body>
+
+</html>

@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import java.util.List;
 
+import com.example.demo.entity.AdminEntity;
 import com.example.demo.entity.PermissionEntity;
 import com.example.demo.entity.RoleEntity;
 import com.example.demo.entity.StoreEntity;
@@ -18,4 +19,15 @@ public interface AdminService {
 	RoleEntity getRoleById(Long id);
 	PermissionEntity getPermissionById(Long id);
 
+
+	List<AdminEntity> getAllAdmin();
+
+	AdminEntity getDetailAdmin(Long id);
+
+	AdminEntity getEdit(Long id);
+
+	void updateAdmin(AdminForm adminForm);
+
+	void delete(Long id);
 }
+

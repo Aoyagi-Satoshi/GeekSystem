@@ -11,6 +11,7 @@ import lombok.Data;
 
 @Data
 public class AdminForm implements Serializable {
+
 	@NotNull
 	private Long storeId;
 	@NotBlank
@@ -27,6 +28,6 @@ public class AdminForm implements Serializable {
 	@NotBlank
 	@Size(min = 10, max = 11)
 	private String phone;
-	//@NotBlank
-	//private String password;
+/**	@NotBlank
+	private String password;*/
 }
