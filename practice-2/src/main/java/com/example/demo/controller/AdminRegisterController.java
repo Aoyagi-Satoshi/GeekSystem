@@ -53,7 +53,6 @@ public class AdminRegisterController {
 		   System.out.println("confirm に来た");
 
 		    HttpSession session = request.getSession();
-		    System.out.println( session);
 
 		AdminForm adminForm = (AdminForm) session.getAttribute("adminForm");
 	    model.addAttribute("adminForm", adminForm);
@@ -76,22 +75,8 @@ public class AdminRegisterController {
 
 		adminService.saveAdmin(adminForm);
 
-		return "redirect:/complete";
+		return "redirect:/admins/adminList";
 	}
 
-	@GetMapping("/complete")
-	public String complete(Model model, HttpServletRequest request) {
 
-		if (request.getSession(false) == null) {
-			return "redirect:/admins";
-		}
-
-		HttpSession session = request.getSession();
-		AdminForm adminForm = (AdminForm) session.getAttribute("adminForm");
-		model.addAttribute("adminForm", adminForm);
-
-		session.invalidate();
-
-		return "completion";
-	}
 }

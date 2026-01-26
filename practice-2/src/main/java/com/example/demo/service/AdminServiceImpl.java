@@ -5,6 +5,11 @@ import java.util.List;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.AdminEntity;
@@ -19,7 +24,7 @@ import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.StoreRepository;
 
 @Service
-public class AdminServiceImpl implements AdminService {
+public class AdminServiceImpl implements AdminService, UserDetailsService {
 	@Autowired
 	private AdminRepository adminRepository;
 	@Autowired
@@ -28,8 +33,8 @@ public class AdminServiceImpl implements AdminService {
 	private RoleRepository roleRepository;
 	@Autowired
 	private PermissionRepository permissionRepository;
-//	@Autowired
-//	private PasswordEncoder passwordEncoder;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Transactional
 	public void saveAdmin(AdminForm adminForm) {
@@ -41,15 +46,15 @@ public class AdminServiceImpl implements AdminService {
 		admin.setRoleId(adminForm.getRoleId());
 		admin.setPermissionId(adminForm.getPermissionId());
 		admin.setPhone(adminForm.getPhone());
-		//admin.setPassword(passwordEncoder.encode(adminForm.getPassword()));
+		admin.setPassword(passwordEncoder.encode(adminForm.getPassword()));
 		adminRepository.save(admin);
 	}
 	
 	@Override
-	public AdminEntity getEdit(Long id) {
+	public AdminEditForm getEdit(Long id) {
 		AdminEntity admin = adminRepository.findById(id).orElse(null);
-		AdminEntity edit = new AdminEntity();
-	
+		AdminEditForm edit = new AdminEditForm();
+		edit.setId(admin.getId());
 		edit.setStoreId(admin.getStoreId());
 		edit.setLastName(admin.getLastName());
 		edit.setFirstName(admin.getFirstName());
@@ -57,8 +62,6 @@ public class AdminServiceImpl implements AdminService {
 		edit.setRoleId(admin.getRoleId());
 		edit.setPermissionId(admin.getPermissionId());
 		edit.setPhone(admin.getPhone());
-		
-
 		return edit;
 	}
 
@@ -72,12 +75,32 @@ public class AdminServiceImpl implements AdminService {
 		admin.setRoleId(adminEditForm.getRoleId());
 		admin.setPermissionId(adminEditForm.getPermissionId());
 		admin.setPhone(adminEditForm.getPhone());
-	//	admin.setPassword(passwordEncoder.encode(adminForm.getPassword()));
-
 
 		adminRepository.save(admin);
 	}
+	
 
+	public UserDetails loadUserByUsername(String email) 
+			throws UsernameNotFoundException {
+		AdminEntity admin = adminRepository.findByEmail(email);
+		
+		return User.withUsername(admin.getEmail())
+				.password(admin.getPassword())
+				.roles("ADMIN")
+				.build();
+	}
+	
+	@Override
+	public List<AdminEntity> getAllAdmin() {
+	    return adminRepository.findAll();
+	}
+
+	@Override
+	public AdminEntity getDetailAdmin(Long id) {
+	    return adminRepository.findById(id)
+	        .orElseThrow(() -> new RuntimeException("管理者が見つかりません"));
+	}
+	
 	@Override
 	public void delete(Long id) {
 		adminRepository.deleteById(id);

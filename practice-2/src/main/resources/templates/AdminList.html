@@ -18,20 +18,21 @@
 		</tr>
 
 		<tr th:each="admin : ${adminlist}">
-			<td th:text="${adminlist.id}"></td>
-			<td th:text="${store.storeName}"></td>
-			<td th:text="${adminlist.lastName},${adminlist.firstName}"></td>
-			<td th:text="${#dates.format(admin.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
-			<td th:text="${#dates.format(admin.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
-			<td>
-				<a th:href="@{/admin/admins/{id}(id=${admin.id})}">詳細</a>
-				<a th:href="@{/admin/admins/{id}/edit(id=${admin.id})}">編集</a>
-				<a th:href="@{/admin/admins/{id}/delete(id=${admin.id})}"
-					onclick="return confirm('本当に削除しますか？');">削除</a>
-			</td>
+		    <td th:text="${admin.id}"></td>
+		    <td th:text="${admin.store.storeName}"></td>
+		    <td th:text="${admin.lastName + ' ' + admin.firstName}"></td>
+		    <td th:text="${#dates.format(admin.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+		    <td th:text="${#dates.format(admin.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+		    <td>
+		        <a th:href="@{/admins/{id}(id=${admin.id})}">詳細</a>
+				<a th:href="@{/admins/{id}/edit(id=${admin.id})}">編集</a>
+		    </td>
 		</tr>
 	</table>
-	<a th:href="@{/login}">ログアウト</a>
+	
+	<button th:onclick="|location.href='@{/admins/new}'|">登録</button>
+	   <a th:href="@{/top}">戻る</a>
+	<a th:href="@{/logout}">ログアウト</a>
 </body>
 
 </html>
