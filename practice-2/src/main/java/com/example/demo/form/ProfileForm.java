@@ -20,6 +20,5 @@ public class ProfileForm implements Serializable {
 	@NotBlank
 	@Size(min = 10, max = 11)
 	private String phone;
-	@NotBlank
-	private String password;
+
 }

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>管理者詳細画面</title>
+</head>
+
+<body>
+	<h1>管理者詳細画面</h1>
+
+	<table border="1">
+		<tr>
+			<th>管理者ID</th>
+			<td th:text="${admindetail.id}"></td>
+		</tr>
+		<tr>
+			<th>名前</th>
+			<td th:text="${admindetail.lastName +' '+ admindetail.firstName}"></td>
+		</tr>
+		<tr>
+			<th>店舗名</th>
+			<td th:text="${admindetail.store.storeName}"></td>
+		</tr>
+		<tr>
+			<th>役職</th>
+			<td th:text="${admindetail.role.roleName}"></td>
+		</tr>
+		<tr>
+			<th>メールアドレス</th>
+			<td th:text="${admindetail.email}"></td>
+		</tr>
+		<tr>
+			<th>電話番号</th>
+			<td th:text="${admindetail.phone}"></td>
+		</tr>
+	</table>
+	<button onclick="">削除</button>
+	<a th:href="@{/admins/adminList}">一覧画面へ戻る</a>
+	<a th:href="@{/login}">ログアウト</a>
+</body>
+
+</html>
