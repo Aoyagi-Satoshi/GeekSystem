@@ -49,7 +49,7 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
 		admin.setPassword(passwordEncoder.encode(adminForm.getPassword()));
 		adminRepository.save(admin);
 	}
-	
+
 	@Override
 	public AdminEditForm getEdit(Long id) {
 		AdminEntity admin = adminRepository.findById(id).orElse(null);
@@ -78,33 +78,36 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
 
 		adminRepository.save(admin);
 	}
-	
 
-	public UserDetails loadUserByUsername(String email) 
+	@Override
+	public UserDetails loadUserByUsername(String email)
 			throws UsernameNotFoundException {
-		AdminEntity admin = adminRepository.findByEmail(email);
-		
+
+		AdminEntity admin = adminRepository.findByEmail(email)
+				.orElseThrow(() -> new UsernameNotFoundException("ユーザーが見つかりません: " + email));
+
 		return User.withUsername(admin.getEmail())
 				.password(admin.getPassword())
 				.roles("ADMIN")
 				.build();
 	}
-	
+
 	@Override
 	public List<AdminEntity> getAllAdmin() {
-	    return adminRepository.findAll();
+		return adminRepository.findAll();
 	}
 
 	@Override
 	public AdminEntity getDetailAdmin(Long id) {
-	    return adminRepository.findById(id)
-	        .orElseThrow(() -> new RuntimeException("管理者が見つかりません"));
+		return adminRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("管理者が見つかりません"));
 	}
-	
+
 	@Override
 	public void delete(Long id) {
 		adminRepository.deleteById(id);
 	}
+
 	@Override
 	public List<StoreEntity> getStores() {
 		return storeRepository.findAll();
@@ -134,7 +137,5 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
 	public PermissionEntity getPermissionById(Long id) {
 		return permissionRepository.findById(id).orElse(null);
 	}
-
-
 
 }
