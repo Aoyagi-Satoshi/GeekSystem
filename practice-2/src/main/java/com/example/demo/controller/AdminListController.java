@@ -52,7 +52,7 @@ public class AdminListController {
 	}
 
 	@PostMapping("/update")
-	public String contact(@Validated @ModelAttribute("AdminEditForm") AdminEditForm adminEditForm,
+	public String updateAdmin(@Validated @ModelAttribute("AdminEditForm") AdminEditForm adminEditForm,
 			BindingResult errorResult,Model model) {
 
 		if (errorResult.hasErrors()) {

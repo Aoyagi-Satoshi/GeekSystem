@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>店舗リスト</title>
+</head>
+<body>
+	<h1>店舗詳細</h1>
+		<table border="1">
+			<tr>
+				<th></th>
+				<th>店舗名</th>
+				<th>住所</th>
+			</tr>
+
+			<tr th:each="store:${stores}">
+				<td th:text="${store.id}"></td>
+			    <td th:text="${store.storeName}"></td>
+			    <td th:text="${store.address}"></td>
+			    <td>
+					<a th:href="@{/{id}/edit(id=${store.id})}">編集</a>
+			    </td>
+			</tr>
+		</table>
+		
+		   <a th:href="@{/top}">TOPに戻る</a>
+		<a th:href="@{/logout}">ログアウト</a>
+
+</body>
+</html>
