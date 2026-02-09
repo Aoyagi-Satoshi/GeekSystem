@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>管理者一覧</title>
+</head>
+
+<body>
+	<h1>管理者一覧</h1>
+	<table border="1">
+		<tr>
+			<th>管理者ID</th>
+			<th>店舗名</th>
+			<th>名前</th>
+			<th>作成日時</th>
+			<th>更新日時</th>
+		</tr>
+
+		<tr th:each="admin : ${adminlist}">
+		    <td th:text="${admin.id}"></td>
+		    <td th:text="${admin.store.storeName}"></td>
+		    <td th:text="${admin.lastName + ' ' + admin.firstName}"></td>
+		    <td th:text="${#dates.format(admin.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+		    <td th:text="${#dates.format(admin.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+		    <td>
+		        <a th:href="@{/admins/{id}(id=${admin.id})}">詳細</a>
+				<a th:href="@{/admins/{id}/edit(id=${admin.id})}">編集</a>
+		    </td>
+		</tr>
+	</table>
+	
+	<button th:onclick="|location.href='@{/admins/new}'|">登録</button>
+	   <a th:href="@{/top}">戻る</a>
+	<a th:href="@{/logout}">ログアウト</a>
+</body>
+
+</html>

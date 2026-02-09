@@ -5,12 +5,18 @@ import java.util.List;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.AdminEntity;
 import com.example.demo.entity.PermissionEntity;
 import com.example.demo.entity.RoleEntity;
 import com.example.demo.entity.StoreEntity;
+import com.example.demo.form.AdminEditForm;
 import com.example.demo.form.AdminForm;
 import com.example.demo.repository.AdminRepository;
 import com.example.demo.repository.PermissionRepository;
@@ -18,7 +24,7 @@ import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.StoreRepository;
 
 @Service
-public class AdminServiceImpl implements AdminService {
+public class AdminServiceImpl implements AdminService, UserDetailsService {
 	@Autowired
 	private AdminRepository adminRepository;
 	@Autowired
@@ -27,8 +33,8 @@ public class AdminServiceImpl implements AdminService {
 	private RoleRepository roleRepository;
 	@Autowired
 	private PermissionRepository permissionRepository;
-	//  @Autowired
-	//   private PasswordEncoder passwordEncoder;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Transactional
 	public void saveAdmin(AdminForm adminForm) {
@@ -40,31 +46,96 @@ public class AdminServiceImpl implements AdminService {
 		admin.setRoleId(adminForm.getRoleId());
 		admin.setPermissionId(adminForm.getPermissionId());
 		admin.setPhone(adminForm.getPhone());
-		//admin.setPassword(passwordEncoder.encode(adminForm.getPassword()));
+		admin.setPassword(passwordEncoder.encode(adminForm.getPassword()));
 		adminRepository.save(admin);
+	}
+
+	@Override
+	public AdminEditForm getEdit(Long id) {
+		AdminEntity admin = adminRepository.findById(id).orElse(null);
+		AdminEditForm edit = new AdminEditForm();
+		edit.setId(admin.getId());
+		edit.setStoreId(admin.getStoreId());
+		edit.setLastName(admin.getLastName());
+		edit.setFirstName(admin.getFirstName());
+		edit.setEmail(admin.getEmail());
+		edit.setRoleId(admin.getRoleId());
+		edit.setPermissionId(admin.getPermissionId());
+		edit.setPhone(admin.getPhone());
+		return edit;
+	}
+
+	public void updateAdmin(AdminEditForm adminEditForm) {
+		AdminEntity admin = adminRepository.findById(adminEditForm.getId())
+				.orElseThrow(() -> new RuntimeException("IDが見つかりませんでした"));
+		admin.setStoreId(adminEditForm.getStoreId());
+		admin.setLastName(adminEditForm.getLastName());
+		admin.setFirstName(adminEditForm.getFirstName());
+		admin.setEmail(adminEditForm.getEmail());
+		admin.setRoleId(adminEditForm.getRoleId());
+		admin.setPermissionId(adminEditForm.getPermissionId());
+		admin.setPhone(adminEditForm.getPhone());
+
+		adminRepository.save(admin);
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String email)
+			throws UsernameNotFoundException {
+
+		AdminEntity admin = adminRepository.findByEmail(email)
+				.orElseThrow(() -> new UsernameNotFoundException("ユーザーが見つかりません: " + email));
+
+		return User.withUsername(admin.getEmail())
+				.password(admin.getPassword())
+				.roles("ADMIN")
+				.build();
+	}
+
+	@Override
+	public List<AdminEntity> getAllAdmin() {
+		return adminRepository.findAll();
+	}
+
+	@Override
+	public AdminEntity getDetailAdmin(Long id) {
+		return adminRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("管理者が見つかりません"));
+	}
+
+	@Override
+	public void delete(Long id) {
+		adminRepository.deleteById(id);
 	}
 
 	@Override
 	public List<StoreEntity> getStores() {
 		return storeRepository.findAll();
 	}
-    @Override
+
+	@Override
 	public StoreEntity getStoreById(Long id) {
-	    return storeRepository.findById(id).orElse(null);
+		return storeRepository.findById(id).orElse(null);
 	}
+
 	@Override
 	public List<RoleEntity> getRoles() {
 		return roleRepository.findAll();
 	}
+
 	@Override
-    public RoleEntity getRoleById(Long id) {
-        return roleRepository.findById(id).orElse(null);
-    }
+	public RoleEntity getRoleById(Long id) {
+		return roleRepository.findById(id).orElse(null);
+	}
+
 	@Override
 	public List<PermissionEntity> getPermissions() {
 		return permissionRepository.findAll();
-	}    @Override
-    public PermissionEntity getPermissionById(Long id) {
-        return permissionRepository.findById(id).orElse(null);
-    }
+	}
+
+	@Override
+	public PermissionEntity getPermissionById(Long id) {
+		return permissionRepository.findById(id).orElse(null);
+	}
+
 }

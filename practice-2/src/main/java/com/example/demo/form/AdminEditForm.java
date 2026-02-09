@@ -10,16 +10,18 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class AdminForm implements Serializable {
+public class AdminEditForm implements Serializable {
 
+	@NotNull
+	private Long id;
 	@NotNull
 	private Long storeId;
 	@NotBlank
 	private String lastName;
 	@NotBlank
 	private String firstName;
-	@NotBlank
 	@Email
+	@NotBlank
 	private String email;
 	@NotNull
 	private Long roleId;
@@ -28,6 +30,5 @@ public class AdminForm implements Serializable {
 	@NotBlank
 	@Size(min = 10, max = 11)
 	private String phone;
-	@NotBlank
-	private String password;
+
 }
