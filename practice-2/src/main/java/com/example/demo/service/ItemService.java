@@ -1,11 +1,19 @@
+
 package com.example.demo.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.example.demo.entity.ItemEntity;
 
 public interface ItemService {
 
-	 List<ItemEntity> getAllItem();
+	Page<ItemEntity> getAllItem(Pageable pageable);
 
+	Page<ItemEntity> searchItems(
+			String itemName,
+			Long largeCategoryId,
+			Long middleCategoryId,
+			Long smallCategoryId,
+			Pageable pageable);
 }
