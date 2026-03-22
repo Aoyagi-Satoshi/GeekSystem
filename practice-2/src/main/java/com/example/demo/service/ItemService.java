@@ -16,4 +16,7 @@ public interface ItemService {
 			Long middleCategoryId,
 			Long smallCategoryId,
 			Pageable pageable);
+
+	ItemEntity findById(Long id);
+
 }

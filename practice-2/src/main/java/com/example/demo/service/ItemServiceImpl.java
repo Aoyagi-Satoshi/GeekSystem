@@ -41,4 +41,11 @@ public class ItemServiceImpl implements ItemService {
 				pageable);
 	}
 
+	@Override
+	public ItemEntity findById(Long id)
+
+	{
+		return itemRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("管理者が見つかりません"));
+	}
 }
