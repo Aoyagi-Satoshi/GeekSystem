@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>メーカー詳細画面</title>
+</head>
+
+<body>
+	<h1>メーカー詳細画面</h1>
+<h2 th:text="${maker.makerName}"></h2>
+	<table border="1">
+		<tr th:each="item : ${items}">
+		    <td th:text="${item.itemName}"></td>
+		    <td th:text="${item.smallCategory.smallName}"></td>
+			<td th:text="${#dates.format(item.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+		</tr>
+	</table>
+	<button onclick="">削除</button>
+	<a th:href="@{/makers/list}">一覧画面へ戻る</a>
+</body>
+
+</html>
