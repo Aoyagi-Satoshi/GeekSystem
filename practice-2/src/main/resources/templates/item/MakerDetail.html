@@ -16,7 +16,10 @@
 			<td th:text="${#dates.format(item.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
 		</tr>
 	</table>
-	<button onclick="">削除</button>
+	<form th:action="@{/makers/{id}/delete(id=${maker.id})}" method="post">
+		<input type="hidden" name="_method" value="delete">
+		<button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
+	</form>
 	<a th:href="@{/makers/list}">一覧画面へ戻る</a>
 </body>
 

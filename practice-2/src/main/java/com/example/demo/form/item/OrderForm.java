@@ -10,11 +10,11 @@ import lombok.Data;
 @Data
 public class OrderForm implements Serializable {
 
-	@NotNull(message = "商品名は必須です")
+	@NotNull(message = "{order.itemId.required}")
 	private Long itemId;
 
-	@NotNull(message = "発注数は必須です")
-	@Min(value = 1, message = "発注数は1以上で入力してください")
+	@NotNull(message = "{order.quantity.required}")
+	@Min(value = 1, message = "{order.quantity.min}")
 	private Integer orderQuantity;
 
 }

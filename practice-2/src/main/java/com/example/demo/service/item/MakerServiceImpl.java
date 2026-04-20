@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.ItemEntity;
 import com.example.demo.entity.MakerEntity;
+import com.example.demo.exception.AdminNotFoundException;
 import com.example.demo.repository.item.ItemRepository;
 import com.example.demo.repository.item.MakerRepository;
 
@@ -25,7 +26,7 @@ public class MakerServiceImpl implements MakerService {
 	@Override
 	public MakerEntity getDetailMaker(Long id) {
 		return makerRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("管理者が見つかりません"));
+				.orElseThrow(() -> new AdminNotFoundException("管理者が見つかりません"));
 	}
 
 	@Override

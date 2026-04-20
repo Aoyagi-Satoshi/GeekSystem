@@ -12,29 +12,29 @@ import lombok.Data;
 @Data
 public class AdminForm implements Serializable {
 
-	@NotNull(message = "店舗名は必須です")
+	@NotNull(message = "{admin.storeId.required}")
 	private Long storeId;
 
-	@NotBlank(message = "姓は必須です")
+	@NotBlank(message = "{admin.lastName.required}")
 	private String lastName;
 
-	@NotBlank(message = "名は必須です")
+	@NotBlank(message = "{admin.firstName.required}")
 	private String firstName;
 
-	@NotBlank(message = "メールアドレスは必須です")
-	@Email(message = "メールアドレスの形式が正しくありません")
+	@NotBlank(message = "{admin.email.required}")
+	@Email(message = "{admin.email.invalid}")
 	private String email;
 
-	@NotNull(message = "役職は必須です")
+	@NotNull(message = "{admin.roleId.required}")
 	private Long roleId;
 
-	@NotNull(message = "権限は必須です")
+	@NotNull(message = "{admin.permissionId.required}")
 	private Long permissionId;
 
-	@NotBlank(message = "電話番号は必須です")
-	@Size(min = 10, max = 11, message = "電話番号は10桁または11桁で入力してください")
+	@NotBlank(message = "{admin.phone.required}")
+	@Size(min = 10, max = 11, message = "{admin.phone.size}")
 	private String phone;
 
-	@NotBlank(message = "パスワードは必須です")
+	@NotBlank(message = "{admin.password.required}")
 	private String password;
 }

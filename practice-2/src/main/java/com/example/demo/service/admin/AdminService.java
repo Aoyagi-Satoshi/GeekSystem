@@ -17,6 +17,8 @@ public interface AdminService {
 
 	AdminEntity getDetailAdmin(Long id);
 
+	AdminEntity getAdminByEmail(String email);
+
 	AdminEditForm getEdit(Long id);
 
 	void updateAdmin(AdminEditForm adminEditForm);
@@ -34,4 +36,5 @@ public interface AdminService {
 	RoleEntity getRoleById(Long id);
 
 	PermissionEntity getPermissionById(Long id);
+
 }

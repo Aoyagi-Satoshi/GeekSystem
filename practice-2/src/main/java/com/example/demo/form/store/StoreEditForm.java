@@ -13,9 +13,9 @@ public class StoreEditForm implements Serializable {
 	@NotNull
 	private Long id;
 
-	@NotBlank(message = "店舗名は必須です")
+	@NotBlank(message = "{store.name.required}")
 	private String storeName;
 
-	@NotBlank(message = "住所は必須です")
+	@NotBlank(message = "{store.address.required}")
 	private String address;
 }

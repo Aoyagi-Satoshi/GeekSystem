@@ -1,10 +1,12 @@
 package com.example.demo.service.admin;
 
 import java.util.List;
+import java.util.Locale;
 
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +18,7 @@ import com.example.demo.entity.AdminEntity;
 import com.example.demo.entity.PermissionEntity;
 import com.example.demo.entity.RoleEntity;
 import com.example.demo.entity.StoreEntity;
+import com.example.demo.exception.AdminNotFoundException;
 import com.example.demo.form.admin.AdminEditForm;
 import com.example.demo.form.admin.AdminForm;
 import com.example.demo.repository.admin.AdminRepository;
@@ -35,6 +38,8 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
 	private PermissionRepository permissionRepository;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	@Autowired
+	private MessageSource messageSource;
 
 	@Transactional
 	public void saveAdmin(AdminForm adminForm) {
@@ -52,7 +57,9 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
 
 	@Override
 	public AdminEditForm getEdit(Long id) {
-		AdminEntity admin = adminRepository.findById(id).orElse(null);
+		AdminEntity admin = adminRepository.findById(id)
+				.orElseThrow(() -> new AdminNotFoundException(
+						messageSource.getMessage("admin.notfound", null, Locale.getDefault())));
 		AdminEditForm edit = new AdminEditForm();
 		edit.setId(admin.getId());
 		edit.setStoreId(admin.getStoreId());
@@ -65,9 +72,17 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
 		return edit;
 	}
 
+	@Override
+	public AdminEntity getAdminByEmail(String email) {
+		return adminRepository.findByEmail(email)
+				.orElseThrow(() -> new AdminNotFoundException(
+						messageSource.getMessage("admin.notfound", null, Locale.getDefault())));
+	}
+
 	public void updateAdmin(AdminEditForm adminEditForm) {
 		AdminEntity admin = adminRepository.findById(adminEditForm.getId())
-				.orElseThrow(() -> new RuntimeException("IDが見つかりませんでした"));
+				.orElseThrow(() -> new AdminNotFoundException(
+						messageSource.getMessage("admin.notfound", null, Locale.getDefault())));
 		admin.setStoreId(adminEditForm.getStoreId());
 		admin.setLastName(adminEditForm.getLastName());
 		admin.setFirstName(adminEditForm.getFirstName());
@@ -100,7 +115,8 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
 	@Override
 	public AdminEntity getDetailAdmin(Long id) {
 		return adminRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("管理者が見つかりません"));
+				.orElseThrow(() -> new AdminNotFoundException(
+						messageSource.getMessage("admin.notfound", null, Locale.getDefault())));
 	}
 
 	@Override

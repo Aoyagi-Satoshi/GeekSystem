@@ -11,18 +11,18 @@ import lombok.Data;
 @Data
 public class ProfileForm implements Serializable {
 
-	@NotBlank(message = "姓は必須です")
+	@NotBlank(message = "{profile.lastName.required}")
 	private String lastName;
 
-	@NotBlank(message = "名は必須です")
+	@NotBlank(message = "{profile.firstName.required}")
 	private String firstName;
 
-	@NotBlank(message = "メールアドレスは必須です")
-	@Email(message = "メールアドレスの形式が正しくありません")
+	@NotBlank(message = "{profile.email.required}")
+	@Email(message = "{profile.email.invalid}")
 	private String email;
 
-	@NotBlank(message = "電話番号は必須です")
-	@Size(min = 10, max = 11, message = "電話番号は10桁または11桁で入力してください")
+	@NotBlank(message = "{profile.phone.required}")
+	@Size(min = 10, max = 11, message = "{profile.phone.size}")
 	private String phone;
 
 }

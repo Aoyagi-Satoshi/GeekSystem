@@ -35,7 +35,12 @@
 			<td th:text="${admindetail.phone}"></td>
 		</tr>
 	</table>
-	<button onclick="">削除</button>
+	<div th:if="${loginAdmin.permissionId == 1}">
+		<form th:action="@{/admins/{id}/delete(id=${admindetail.id})}" method="post">
+			<input type="hidden" name="_method" value="delete">
+			<button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
+		</form>
+	</div>
 	<a th:href="@{/admins/list}">一覧画面へ戻る</a>
 	<a th:href="@{/login}">ログアウト</a>
 </body>

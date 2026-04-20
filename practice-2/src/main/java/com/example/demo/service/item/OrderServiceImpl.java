@@ -1,12 +1,18 @@
 package com.example.demo.service.item;
 
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.ItemEntity;
 import com.example.demo.entity.StoreEntity;
 import com.example.demo.entity.StoreItemEntity;
+import com.example.demo.exception.ItemNotFoundException;
+import com.example.demo.exception.StoreItemNotFoundException;
+import com.example.demo.exception.StoreNotFoundException;
 import com.example.demo.repository.item.ItemRepository;
 import com.example.demo.repository.store.StoreItemRepository;
 import com.example.demo.repository.store.StoreRepository;
@@ -23,40 +29,42 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private ItemRepository itemRepository;
 
+	@Autowired
+	private MessageSource messageSource;
+
 	@Override
 	public ItemEntity findById(Long id) {
 		return itemRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("商品が見つかりません"));
+				.orElseThrow(() -> new ItemNotFoundException(
+						messageSource.getMessage("item.notfound", null, Locale.getDefault())));
 	}
 
 	@Override
 	public StoreItemEntity findByStoreAndItem(Long storeId, Long itemId) {
 		StoreEntity store = storeRepository.findById(storeId)
-				.orElseThrow(() -> new RuntimeException("店舗が見つかりません"));
-
+				.orElseThrow(() -> new StoreNotFoundException(
+						messageSource.getMessage("store.notfound", null, Locale.getDefault())));
 		ItemEntity item = itemRepository.findById(itemId)
-				.orElseThrow(() -> new RuntimeException("商品が見つかりません"));
-
+				.orElseThrow(() -> new ItemNotFoundException(
+						messageSource.getMessage("item.notfound", null, Locale.getDefault())));
 		return storeItemRepository.findByStoreAndItem(store, item)
-				.orElseThrow(() -> new RuntimeException("店舗別商品が見つかりません"));
+				.orElseThrow(() -> new StoreItemNotFoundException(
+						messageSource.getMessage("storeitem.notfound", null, Locale.getDefault())));
 	}
 
 	@Override
 	@Transactional
 	public void orderItem(Long storeId, Long itemId, Integer orderQuantity) {
-
 		StoreEntity store = storeRepository.findById(storeId)
-				.orElseThrow(() -> new RuntimeException("店舗が見つかりません"));
-
+				.orElseThrow(() -> new StoreNotFoundException(
+						messageSource.getMessage("store.notfound", null, Locale.getDefault())));
 		ItemEntity item = itemRepository.findById(itemId)
-				.orElseThrow(() -> new RuntimeException("商品が見つかりません"));
-
+				.orElseThrow(() -> new ItemNotFoundException(
+						messageSource.getMessage("item.notfound", null, Locale.getDefault())));
 		StoreItemEntity storeItem = storeItemRepository.findByStoreAndItem(store, item)
-				.orElseThrow(() -> new RuntimeException("店舗別商品が見つかりません"));
-
+				.orElseThrow(() -> new StoreItemNotFoundException(
+						messageSource.getMessage("storeitem.notfound", null, Locale.getDefault())));
 		storeItem.setStock(storeItem.getStock() + orderQuantity);
-
 		storeItemRepository.save(storeItem);
-
 	}
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import com.example.demo.form.store.StoreEditForm;
 import com.example.demo.service.store.StoreService;
@@ -43,7 +44,7 @@ public class StoreController {
 		return "store/StoreConfirmation";
 	}
 
-	@PostMapping("/store/update")
+	@PutMapping("/store/update")
 	public String updateStore(
 			@ModelAttribute("StoreEditForm") StoreEditForm storeEditForm) {
 
