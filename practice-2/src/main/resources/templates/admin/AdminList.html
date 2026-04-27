@@ -19,7 +19,7 @@
 
 		<tr th:each="admin : ${adminlist}">
 		    <td th:text="${admin.id}"></td>
-		    <td th:text="${admin.store.storeName}"></td>
+		    <td th:text="${admin.storeName}"></td>
 		    <td th:text="${admin.lastName + ' ' + admin.firstName}"></td>
 		    <td th:text="${#dates.format(admin.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
 		    <td th:text="${#dates.format(admin.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>

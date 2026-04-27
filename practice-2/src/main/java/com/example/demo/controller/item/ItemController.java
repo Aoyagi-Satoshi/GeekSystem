@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.entity.ItemEntity;
+import com.example.demo.dto.item.ItemListDto;
 import com.example.demo.service.item.CategoryService;
 import com.example.demo.service.item.ItemService;
 
@@ -21,7 +21,7 @@ public class ItemController {
 	@Autowired
 	private CategoryService categoryService;
 
-	@GetMapping("/items/list")
+	@GetMapping("/items")
 	public String getItemList(
 			Model model,
 			@RequestParam(required = false) String itemName,
@@ -30,7 +30,7 @@ public class ItemController {
 			@RequestParam(required = false) Long smallCategoryId,
 			@PageableDefault(size = 5) Pageable pageable) {
 
-		Page<ItemEntity> itemsPage = itemService.searchItems(
+		Page<ItemListDto> itemsPage = itemService.searchItems(
 				itemName,
 				largeCategoryId,
 				middleCategoryId,

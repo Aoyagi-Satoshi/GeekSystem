@@ -2,19 +2,19 @@ package com.example.demo.service.item;
 
 import java.util.List;
 
-import com.example.demo.entity.LargeCategoriesEntity;
-import com.example.demo.entity.MiddleCategoriesEntity;
-import com.example.demo.entity.SmallCategoriesEntity;
+import com.example.demo.dto.Category.LargeCategoryDto;
+import com.example.demo.dto.Category.MiddleCategoryDto;
+import com.example.demo.dto.Category.SmallCategoryDto;
 
 public interface CategoryService {
-	List<LargeCategoriesEntity> getAllLargeCategories();
+	List<LargeCategoryDto> getAllLargeCategories();
 
-	List<MiddleCategoriesEntity> getAllMiddleCategories();
+	List<MiddleCategoryDto> getAllMiddleCategories();
 
-	List<SmallCategoriesEntity> getAllSmallCategories();
+	List<SmallCategoryDto> getAllSmallCategories();
 
-	List<MiddleCategoriesEntity> getMiddleCategoriesByLargeId(Long largeCategoryId);
+	List<MiddleCategoryDto> getMiddleCategoriesByLargeId(Long largeCategoryId);
 
-	List<SmallCategoriesEntity> getSmallCategoriesByMiddleId(Long middleCategoryId);
+	List<SmallCategoryDto> getSmallCategoriesByMiddleId(Long middleCategoryId);
 
 }

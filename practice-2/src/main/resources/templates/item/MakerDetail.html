@@ -12,7 +12,7 @@
 	<table border="1">
 		<tr th:each="item : ${items}">
 		    <td th:text="${item.itemName}"></td>
-		    <td th:text="${item.smallCategory.smallName}"></td>
+		    <td th:text="${item.smallCategoryName}"></td>
 			<td th:text="${#dates.format(item.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
 		</tr>
 	</table>
@@ -20,7 +20,7 @@
 		<input type="hidden" name="_method" value="delete">
 		<button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
 	</form>
-	<a th:href="@{/makers/list}">一覧画面へ戻る</a>
+	<a th:href="@{/makers}">一覧画面へ戻る</a>
 </body>
 
 </html>

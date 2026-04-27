@@ -2,15 +2,16 @@ package com.example.demo.service.item;
 
 import java.util.List;
 
-import com.example.demo.entity.ItemEntity;
-import com.example.demo.entity.MakerEntity;
+import com.example.demo.dto.maker.MakerDetailDto;
+import com.example.demo.dto.maker.MakerItemDto;
+import com.example.demo.dto.maker.MakerListDto;
 
 public interface MakerService {
-	List<MakerEntity> getAllMaker();
+	List<MakerListDto> getAllMaker();
 
-	List<ItemEntity> getItemsByMakerId(Long makerId);
+	List<MakerItemDto> getItemsByMakerId(Long makerId);
 
-	MakerEntity getDetailMaker(Long id);
+	MakerDetailDto getDetailMaker(Long id);
 
 	void delete(Long id);
 }

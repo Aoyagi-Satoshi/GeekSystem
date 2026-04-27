@@ -2,6 +2,8 @@ package com.example.demo.service.admin;
 
 import java.util.List;
 
+import com.example.demo.dto.admin.AdminDetailDto;
+import com.example.demo.dto.admin.AdminListDto;
 import com.example.demo.entity.AdminEntity;
 import com.example.demo.entity.PermissionEntity;
 import com.example.demo.entity.RoleEntity;
@@ -13,9 +15,9 @@ public interface AdminService {
 
 	void saveAdmin(AdminForm adminForm);
 
-	List<AdminEntity> getAllAdmin();
+	List<AdminListDto> getAllAdmin();
 
-	AdminEntity getDetailAdmin(Long id);
+	AdminDetailDto getDetailAdmin(Long id);
 
 	AdminEntity getAdminByEmail(String email);
 
@@ -36,5 +38,4 @@ public interface AdminService {
 	RoleEntity getRoleById(Long id);
 
 	PermissionEntity getPermissionById(Long id);
-
 }

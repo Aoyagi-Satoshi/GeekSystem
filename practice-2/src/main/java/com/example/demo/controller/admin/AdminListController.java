@@ -27,11 +27,10 @@ public class AdminListController {
 	@Autowired
 	private AdminService adminService;
 
-	@GetMapping("/list")
+	@GetMapping
 	public String adminList(Model model) {
 
 		model.addAttribute("adminlist", adminService.getAllAdmin());
-		model.addAttribute("store", adminService.getStores());
 
 		return "admin/AdminList";
 	}
@@ -42,8 +41,6 @@ public class AdminListController {
 			Model model) {
 
 		model.addAttribute("admindetail", adminService.getDetailAdmin(id));
-		model.addAttribute("store", adminService.getStores());
-		model.addAttribute("role", adminService.getRoles());
 
 		AdminEntity loginAdmin = adminService.getAdminByEmail(user.getUsername());
 		model.addAttribute("loginAdmin", loginAdmin);
@@ -53,10 +50,12 @@ public class AdminListController {
 
 	@GetMapping("/{id}/edit")
 	public String editAdmin(@PathVariable Long id, Model model) {
+
 		model.addAttribute("AdminEditForm", adminService.getEdit(id));
 		model.addAttribute("stores", adminService.getStores());
 		model.addAttribute("roles", adminService.getRoles());
 		model.addAttribute("permissions", adminService.getPermissions());
+
 		return "admin/AdminEdit";
 	}
 
@@ -72,7 +71,7 @@ public class AdminListController {
 			return "admin/AdminEdit";
 		}
 		adminService.updateAdmin(adminEditForm);
-		return "redirect:/admins/list";
+		return "redirect:/admins";
 	}
 
 	@DeleteMapping("/{id}/delete")
@@ -83,10 +82,10 @@ public class AdminListController {
 		AdminEntity loginAdmin = adminService.getAdminByEmail(user.getUsername());
 
 		if (loginAdmin.getPermissionId() == null || loginAdmin.getPermissionId() != 1L) {
-			return "redirect:/admins/list";
+			return "redirect:/admins";
 		}
 
 		adminService.delete(id);
-		return "redirect:/admins/list";
+		return "redirect:/admins";
 	}
 }

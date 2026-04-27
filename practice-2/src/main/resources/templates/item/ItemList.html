@@ -8,7 +8,7 @@
 
 <body>
 	<h1>商品一覧</h1>
-	<form th:action="@{/itemList}" method="get">
+	<form th:action="@{/items}" method="get">
 		<label for="itemName">商品名</label>
 		<input type="text" id="itemName" name="itemName" th:value="${itemName}">
 		<label for="largeCategoryId">大カテゴリ</label>
@@ -42,7 +42,7 @@
 			</select>
 
 		<button type="submit">検索</button>
-		<a th:href="@{/itemList}">クリア</a>
+		<a th:href="@{/items}">クリア</a>
 	</form>
 	<table border="1">
 		<tr>
@@ -55,7 +55,7 @@
 		<tr th:each="item : ${itemlist}">
 			<td th:text="${item.id}"></td>
 			<td th:text="${item.itemName}"></td>
-			<td th:text="${item.smallCategory.smallName}"></td>
+			<td th:text="${item.smallCategoryName}"></td>
 			<td th:text="${#numbers.formatInteger(item.costPrice, 1, 'COMMA')}"></td>
 
 			<td>
@@ -70,20 +70,20 @@
 			<li th:class="${page.first} ? 'disabled' : ''" style="display:inline">
 				<span th:if="${page.first}">←前</span>
 				<a th:if="${not page.first}"
-					th:href="@{/itemList(page=${page.number - 1}, itemName=${itemName})}">←前</a>
+					th:href="@{/items(page=${page.number - 1}, itemName=${itemName})}">←前</a>
 			</li>
 
 			<li th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
 				th:class="${i == page.number} ? 'active' : ''" style="display:inline">
 				<span th:if="${i == page.number}" th:text="${i + 1}">1</span>
-				<a th:if="${i != page.number}" th:href="@{/itemList(page=${i}, itemName=${itemName})}">
+				<a th:if="${i != page.number}" th:href="@{/items(page=${i}, itemName=${itemName})}">
 					<span th:text="${i + 1}">1</span>
 				</a>
 			</li>
 
 			<li th:class="${page.last} ? 'disabled' : ''" style="display:inline">
 				<span th:if="${page.last}">次➝</span>
-				<a th:if="${not page.last}" th:href="@{/itemList(page=${page.number + 1}, itemName=${itemName})}">次➝</a>
+				<a th:if="${not page.last}" th:href="@{/items(page=${page.number + 1}, itemName=${itemName})}">次➝</a>
 			</li>
 		</ul>
 	</div>

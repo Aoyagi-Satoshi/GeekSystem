@@ -4,13 +4,14 @@ package com.example.demo.service.item;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.example.demo.dto.item.ItemListDto;
 import com.example.demo.entity.ItemEntity;
 
 public interface ItemService {
 
-	Page<ItemEntity> getAllItem(Pageable pageable);
+	Page<ItemListDto> getAllItem(Pageable pageable);
 
-	Page<ItemEntity> searchItems(
+	Page<ItemListDto> searchItems(
 			String itemName,
 			Long largeCategoryId,
 			Long middleCategoryId,

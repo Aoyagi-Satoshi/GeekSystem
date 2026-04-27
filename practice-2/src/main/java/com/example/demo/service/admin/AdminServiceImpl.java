@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.admin.AdminDetailDto;
+import com.example.demo.dto.admin.AdminListDto;
 import com.example.demo.entity.AdminEntity;
 import com.example.demo.entity.PermissionEntity;
 import com.example.demo.entity.RoleEntity;
@@ -108,15 +110,38 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
 	}
 
 	@Override
-	public List<AdminEntity> getAllAdmin() {
-		return adminRepository.findAll();
+	public List<AdminListDto> getAllAdmin() {
+		return adminRepository.findAll().stream().map(admin -> {
+			AdminListDto dto = new AdminListDto();
+			dto.setId(admin.getId());
+			dto.setLastName(admin.getLastName());
+			dto.setFirstName(admin.getFirstName());
+			dto.setEmail(admin.getEmail());
+			dto.setStoreName(admin.getStore().getStoreName());
+			dto.setRoleName(admin.getRole().getRoleName());
+			dto.setCreatedAt(admin.getCreatedAt());
+			dto.setUpdatedAt(admin.getUpdatedAt());
+			return dto;
+		}).toList();
 	}
 
 	@Override
-	public AdminEntity getDetailAdmin(Long id) {
-		return adminRepository.findById(id)
+	public AdminDetailDto getDetailAdmin(Long id) {
+		AdminEntity admin = adminRepository.findById(id)
 				.orElseThrow(() -> new AdminNotFoundException(
 						messageSource.getMessage("admin.notfound", null, Locale.getDefault())));
+
+		AdminDetailDto dto = new AdminDetailDto();
+		dto.setId(admin.getId());
+		dto.setLastName(admin.getLastName());
+		dto.setFirstName(admin.getFirstName());
+		dto.setEmail(admin.getEmail());
+		dto.setPhone(admin.getPhone());
+		dto.setStoreName(admin.getStore().getStoreName());
+		dto.setRoleName(admin.getRole().getRoleName());
+		dto.setPermissionName(admin.getPermission().getPermissionName());
+
+		return dto;
 	}
 
 	@Override

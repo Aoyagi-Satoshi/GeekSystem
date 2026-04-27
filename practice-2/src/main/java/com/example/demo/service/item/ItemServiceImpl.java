@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.item.ItemListDto;
 import com.example.demo.entity.ItemEntity;
 import com.example.demo.exception.ItemNotFoundException;
 import com.example.demo.repository.item.ItemRepository;
@@ -22,17 +23,19 @@ public class ItemServiceImpl implements ItemService {
 	private MessageSource messageSource;
 
 	@Override
-	public Page<ItemEntity> getAllItem(Pageable pageable) {
-		return itemRepository.findAll(pageable);
+	public Page<ItemListDto> getAllItem(Pageable pageable) {
+		return itemRepository.findAll(pageable)
+				.map(this::convertToItemListDto);
 	}
 
 	@Override
-	public Page<ItemEntity> searchItems(
+	public Page<ItemListDto> searchItems(
 			String itemName,
 			Long largeCategoryId,
 			Long middleCategoryId,
 			Long smallCategoryId,
 			Pageable pageable) {
+
 		String keyword;
 		if (itemName != null) {
 			keyword = itemName.trim();
@@ -45,7 +48,25 @@ public class ItemServiceImpl implements ItemService {
 				largeCategoryId,
 				middleCategoryId,
 				smallCategoryId,
-				pageable);
+				pageable)
+				.map(this::convertToItemListDto);
+	}
+
+	private ItemListDto convertToItemListDto(ItemEntity item) {
+		ItemListDto dto = new ItemListDto();
+		dto.setId(item.getId());
+		dto.setItemName(item.getItemName());
+		dto.setCostPrice(item.getCostPrice());
+		dto.setCreatedAt(item.getCreatedAt());
+		if (item.getMaker() != null) {
+			dto.setMakerName(item.getMaker().getMakerName());
+		}
+
+		if (item.getSmallCategory() != null) {
+			dto.setSmallCategoryName(item.getSmallCategory().getSmallName());
+		}
+
+		return dto;
 	}
 
 	@Override
