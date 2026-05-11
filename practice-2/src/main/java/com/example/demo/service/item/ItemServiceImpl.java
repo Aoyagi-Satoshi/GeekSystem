@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.item.ItemDetailDto;
 import com.example.demo.dto.item.ItemListDto;
 import com.example.demo.entity.ItemEntity;
 import com.example.demo.exception.ItemNotFoundException;
@@ -61,11 +62,9 @@ public class ItemServiceImpl implements ItemService {
 		if (item.getMaker() != null) {
 			dto.setMakerName(item.getMaker().getMakerName());
 		}
-
 		if (item.getSmallCategory() != null) {
 			dto.setSmallCategoryName(item.getSmallCategory().getSmallName());
 		}
-
 		return dto;
 	}
 
@@ -74,5 +73,37 @@ public class ItemServiceImpl implements ItemService {
 		return itemRepository.findById(id)
 				.orElseThrow(() -> new ItemNotFoundException(
 						messageSource.getMessage("item.notfound", null, Locale.getDefault())));
+	}
+
+	@Override
+	public ItemDetailDto getDetailItem(Long id) {
+		ItemEntity item = itemRepository.findById(id)
+				.orElseThrow(() -> new ItemNotFoundException(
+						messageSource.getMessage("item.notfound", null, Locale.getDefault())));
+
+		ItemDetailDto dto = new ItemDetailDto();
+
+		dto.setId(item.getId());
+		dto.setItemName(item.getItemName());
+		dto.setCostPrice(item.getCostPrice());
+		dto.setMakerPrice(item.getMakerPrice());
+		dto.setItemInfo(item.getItemInfo());
+
+		if (item.getMaker() != null) {
+			dto.setMakerName(item.getMaker().getMakerName());
+		}
+
+		if (item.getSmallCategory() != null
+				&& item.getSmallCategory().getMiddleCategory() != null
+				&& item.getSmallCategory().getMiddleCategory().getLargeCategory() != null) {
+
+			dto.setLargeCategoryName(
+					item.getSmallCategory()
+							.getMiddleCategory()
+							.getLargeCategory()
+							.getLargeName());
+		}
+
+		return dto;
 	}
 }

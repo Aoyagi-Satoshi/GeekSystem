@@ -19,7 +19,7 @@ public class StoreController {
 	@Autowired
 	StoreService storeService;
 
-	@GetMapping("/stores/list")
+	@GetMapping("/stores")
 	public String storeList(Model model) {
 
 		model.addAttribute("stores", storeService.getAllStore());
@@ -49,6 +49,6 @@ public class StoreController {
 			@ModelAttribute("StoreEditForm") StoreEditForm storeEditForm) {
 
 		storeService.updateStore(storeEditForm);
-		return "redirect:/storeList";
+		return "redirect:/stores";
 	}
 }

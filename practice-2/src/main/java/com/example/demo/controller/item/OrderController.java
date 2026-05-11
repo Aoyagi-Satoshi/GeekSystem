@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.dto.item.OrderItemDto;
 import com.example.demo.entity.AdminEntity;
-import com.example.demo.entity.ItemEntity;
-import com.example.demo.entity.StoreItemEntity;
 import com.example.demo.form.item.OrderForm;
 import com.example.demo.service.item.ItemService;
 import com.example.demo.service.item.OrderService;
@@ -43,8 +42,7 @@ public class OrderController {
 
 		AdminEntity admin = profileService.getProfileByEmail(user.getUsername());
 
-		ItemEntity item = itemService.findById(id);
-		StoreItemEntity storeItem = orderService.findByStoreAndItem(admin.getStoreId(), id);
+		OrderItemDto item = orderService.getOrderItem(admin.getStoreId(), id);
 
 		HttpSession session = request.getSession();
 		OrderForm form = (OrderForm) session.getAttribute("orderForm");
@@ -55,9 +53,7 @@ public class OrderController {
 		}
 
 		model.addAttribute("item", item);
-		model.addAttribute("storeItem", storeItem);
 		model.addAttribute("orderForm", form);
-		model.addAttribute("admin", admin);
 
 		return "item/itemOrder";
 	}
@@ -71,13 +67,10 @@ public class OrderController {
 
 		AdminEntity admin = profileService.getProfileByEmail(user.getUsername());
 
-		ItemEntity item = itemService.findById(orderForm.getItemId());
-		StoreItemEntity storeItem = orderService.findByStoreAndItem(admin.getStoreId(), orderForm.getItemId());
+		OrderItemDto item = orderService.getOrderItem(admin.getStoreId(), orderForm.getItemId());
 
 		if (result.hasErrors()) {
 			model.addAttribute("item", item);
-			model.addAttribute("storeItem", storeItem);
-			model.addAttribute("orderForm", orderForm);
 			model.addAttribute("admin", admin);
 			return "item/itemOrder";
 		}
@@ -99,16 +92,13 @@ public class OrderController {
 		OrderForm orderForm = (OrderForm) session.getAttribute("orderForm");
 
 		if (orderForm == null) {
-			return "redirect:/itemList";
+			return "redirect:/items";
 		}
 
-		ItemEntity item = itemService.findById(orderForm.getItemId());
-		StoreItemEntity storeItem = orderService.findByStoreAndItem(admin.getStoreId(), orderForm.getItemId());
+		OrderItemDto item = orderService.getOrderItem(admin.getStoreId(), orderForm.getItemId());
 
 		model.addAttribute("orderForm", orderForm);
 		model.addAttribute("item", item);
-		model.addAttribute("storeItem", storeItem);
-		model.addAttribute("admin", admin);
 
 		return "item/itemOrderConfirmation";
 	}
@@ -130,6 +120,6 @@ public class OrderController {
 
 		session.removeAttribute("orderForm");
 
-		return "redirect:/itemList";
+		return "redirect:/items";
 	}
 }

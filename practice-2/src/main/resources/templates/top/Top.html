@@ -17,7 +17,7 @@
 	</div>
 
 	<div>
-		<button onclick="location.href='stores/list'">店舗一覧</button>
+		<button onclick="location.href='/stores'">店舗一覧</button>
 	</div>
 
 	<div>
@@ -42,7 +42,9 @@
 
 	<hr>
 
-	<a href="/logout">ログアウト</a>
+	<form th:action="@{/logout}" method="post">
+		<button type="submit">ログアウト</button>
+	</form>
 
 </body>
 

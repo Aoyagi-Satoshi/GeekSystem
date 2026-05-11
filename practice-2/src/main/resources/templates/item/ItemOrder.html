@@ -24,7 +24,7 @@
 	            </tr>
 	            <tr>
 	                <th>在庫数</th>
-	                <td th:text="${storeItem.stock}"></td>
+	           		<td th:text="${item.stock}"></td>
 	            </tr>
 	            <tr>
 	                <th>発注数</th>
@@ -36,7 +36,7 @@
 	        </table>
 
 	        <button type="submit">確認画面へ</button>
-	        <a th:href="@{/items/list}">戻る</a>
+	        <a th:href="@{/items}">戻る</a>
 	    </form>
 	</body>
 </html>

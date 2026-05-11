@@ -7,6 +7,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.dto.item.OrderItemDto;
 import com.example.demo.entity.ItemEntity;
 import com.example.demo.entity.StoreEntity;
 import com.example.demo.entity.StoreItemEntity;
@@ -66,5 +67,27 @@ public class OrderServiceImpl implements OrderService {
 						messageSource.getMessage("storeitem.notfound", null, Locale.getDefault())));
 		storeItem.setStock(storeItem.getStock() + orderQuantity);
 		storeItemRepository.save(storeItem);
+	}
+
+	@Override
+	public OrderItemDto getOrderItem(Long storeId, Long itemId) {
+		StoreEntity store = storeRepository.findById(storeId)
+				.orElseThrow(() -> new StoreNotFoundException(
+						messageSource.getMessage("store.notfound", null, Locale.getDefault())));
+
+		ItemEntity item = itemRepository.findById(itemId)
+				.orElseThrow(() -> new ItemNotFoundException(
+						messageSource.getMessage("item.notfound", null, Locale.getDefault())));
+
+		StoreItemEntity storeItem = storeItemRepository.findByStoreAndItem(store, item)
+				.orElseThrow(() -> new StoreItemNotFoundException(
+						messageSource.getMessage("storeitem.notfound", null, Locale.getDefault())));
+
+		OrderItemDto dto = new OrderItemDto();
+		dto.setId(item.getId());
+		dto.setItemName(item.getItemName());
+		dto.setStock(storeItem.getStock());
+
+		return dto;
 	}
 }
