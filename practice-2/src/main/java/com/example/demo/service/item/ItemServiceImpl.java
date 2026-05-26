@@ -81,6 +81,10 @@ public class ItemServiceImpl implements ItemService {
 				.orElseThrow(() -> new ItemNotFoundException(
 						messageSource.getMessage("item.notfound", null, Locale.getDefault())));
 
+		return convertToItemDetailDto(item);
+	}
+
+	private ItemDetailDto convertToItemDetailDto(ItemEntity item) {
 		ItemDetailDto dto = new ItemDetailDto();
 
 		dto.setId(item.getId());

@@ -83,11 +83,14 @@ public class OrderServiceImpl implements OrderService {
 				.orElseThrow(() -> new StoreItemNotFoundException(
 						messageSource.getMessage("storeitem.notfound", null, Locale.getDefault())));
 
+		return convertToOrderItemDto(item, storeItem);
+	}
+
+	private OrderItemDto convertToOrderItemDto(ItemEntity item, StoreItemEntity storeItem) {
 		OrderItemDto dto = new OrderItemDto();
 		dto.setId(item.getId());
 		dto.setItemName(item.getItemName());
 		dto.setStock(storeItem.getStock());
-
 		return dto;
 	}
 }

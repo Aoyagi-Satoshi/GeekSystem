@@ -111,18 +111,22 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
 
 	@Override
 	public List<AdminListDto> getAllAdmin() {
-		return adminRepository.findAll().stream().map(admin -> {
-			AdminListDto dto = new AdminListDto();
-			dto.setId(admin.getId());
-			dto.setLastName(admin.getLastName());
-			dto.setFirstName(admin.getFirstName());
-			dto.setEmail(admin.getEmail());
-			dto.setStoreName(admin.getStore().getStoreName());
-			dto.setRoleName(admin.getRole().getRoleName());
-			dto.setCreatedAt(admin.getCreatedAt());
-			dto.setUpdatedAt(admin.getUpdatedAt());
-			return dto;
-		}).toList();
+		return adminRepository.findAll().stream()
+				.map(this::convertToAdminListDto)
+				.toList();
+	}
+
+	private AdminListDto convertToAdminListDto(AdminEntity admin) {
+		AdminListDto dto = new AdminListDto();
+		dto.setId(admin.getId());
+		dto.setLastName(admin.getLastName());
+		dto.setFirstName(admin.getFirstName());
+		dto.setEmail(admin.getEmail());
+		dto.setStoreName(admin.getStore().getStoreName());
+		dto.setRoleName(admin.getRole().getRoleName());
+		dto.setCreatedAt(admin.getCreatedAt());
+		dto.setUpdatedAt(admin.getUpdatedAt());
+		return dto;
 	}
 
 	@Override
@@ -131,6 +135,10 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
 				.orElseThrow(() -> new AdminNotFoundException(
 						messageSource.getMessage("admin.notfound", null, Locale.getDefault())));
 
+		return convertToAdminDetailDto(admin);
+	}
+
+	private AdminDetailDto convertToAdminDetailDto(AdminEntity admin) {
 		AdminDetailDto dto = new AdminDetailDto();
 		dto.setId(admin.getId());
 		dto.setLastName(admin.getLastName());
@@ -140,7 +148,6 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
 		dto.setStoreName(admin.getStore().getStoreName());
 		dto.setRoleName(admin.getRole().getRoleName());
 		dto.setPermissionName(admin.getPermission().getPermissionName());
-
 		return dto;
 	}
 
