@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.example.demo.dto.item.OrderItemDto;
 import com.example.demo.entity.AdminEntity;
 import com.example.demo.form.item.OrderForm;
-import com.example.demo.service.item.ItemService;
 import com.example.demo.service.item.OrderService;
 import com.example.demo.service.profile.ProfileService;
 
@@ -27,9 +26,6 @@ public class OrderController {
 
 	@Autowired
 	private OrderService orderService;
-
-	@Autowired
-	private ItemService itemService;
 
 	@Autowired
 	private ProfileService profileService;
@@ -116,7 +112,11 @@ public class OrderController {
 			return "redirect:/itemList";
 		}
 
-		orderService.orderItem(admin.getStoreId(), orderForm.getItemId(), orderForm.getOrderQuantity());
+		orderService.orderItem(
+				admin.getStoreId(),
+				orderForm.getItemId(),
+				orderForm.getOrderQuantity(),
+				admin);
 
 		session.removeAttribute("orderForm");
 
