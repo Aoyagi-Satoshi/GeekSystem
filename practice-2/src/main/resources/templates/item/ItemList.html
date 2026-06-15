@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
 	<meta charset="UTF-8">
 	<title>商品一覧</title>
@@ -25,9 +24,10 @@
 			<select name="middleCategoryId" id="middleCategoryId">
 				<option value=""></option>
 				<option th:each="middle : ${middleCategoryList}"
-						th:value="${middle.id}"
-						th:text="${middle.middleName}"
-						th:selected="${middleCategoryId != null and middleCategoryId == middle.id}">
+				        th:value="${middle.id}"
+				        th:text="${middle.middleName}"
+				        th:attr="data-large-id=${middle.largeCategoryId}"
+				        th:selected="${middleCategoryId != null and middleCategoryId == middle.id}">
 				</option>
 			</select>
 
@@ -35,9 +35,10 @@
 			<select name="smallCategoryId" id="smallCategoryId">
 				<option value=""></option>
 				<option th:each="small : ${smallCategoryList}"
-						th:value="${small.id}"
-						th:text="${small.smallName}"
-						th:selected="${smallCategoryId != null and smallCategoryId == small.id}">
+				        th:value="${small.id}"
+				        th:text="${small.smallName}"
+				        th:attr="data-middle-id=${small.middleCategoryId}, data-large-id=${small.largeCategoryId}"
+				        th:selected="${smallCategoryId != null and smallCategoryId == small.id}">
 				</option>
 			</select>
 
@@ -89,7 +90,7 @@
 	</div>
 
 	<a th:href="@{/top}">Topに戻る</a>
-
+	<script th:src="@{/js/category.js}"></script>
 </body>
 
 </html>

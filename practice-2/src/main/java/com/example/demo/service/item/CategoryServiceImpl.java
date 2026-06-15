@@ -73,6 +73,7 @@ public class CategoryServiceImpl implements CategoryService {
 		MiddleCategoryDto dto = new MiddleCategoryDto();
 		dto.setId(entity.getId());
 		dto.setMiddleName(entity.getMiddleName());
+		dto.setLargeCategoryId(entity.getLargeCategory().getId());
 		return dto;
 	}
 
@@ -80,6 +81,8 @@ public class CategoryServiceImpl implements CategoryService {
 		SmallCategoryDto dto = new SmallCategoryDto();
 		dto.setId(entity.getId());
 		dto.setSmallName(entity.getSmallName());
+		dto.setMiddleCategoryId(entity.getMiddleCategory().getId());
+		dto.setLargeCategoryId(entity.getMiddleCategory().getLargeCategory().getId());
 		return dto;
 	}
 

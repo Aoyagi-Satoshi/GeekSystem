@@ -6,4 +6,5 @@ import lombok.Data;
 public class MiddleCategoryDto {
 	private Long id;
 	private String middleName;
+	private Long largeCategoryId;
 }
