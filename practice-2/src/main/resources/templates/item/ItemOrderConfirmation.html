@@ -22,7 +22,7 @@
 
 			<tr>
 				<th>現在在庫数</th>
-				<td th:text="${storeItem.stock}"></td>
+				<td th:text="${item.stock}"></td>
 			</tr>
 			<tr>
 				<th>発注数</th>
@@ -30,7 +30,7 @@
 			</tr>
 			<tr>
 				<th>発注後在庫数</th>
-				<td th:text="${storeItem.stock + orderForm.orderQuantity}"></td>
+				<td th:text="${item.stock + orderForm.orderQuantity}"></td>
 			</tr>
 		</table>
 

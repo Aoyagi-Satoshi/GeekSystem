@@ -6,11 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.Category.LargeCategoryDto;
+import com.example.demo.dto.Category.LargeCategoryListDto;
 import com.example.demo.dto.Category.MiddleCategoryDto;
+import com.example.demo.dto.Category.MiddleCategoryListDto;
+import com.example.demo.dto.Category.SmallCategoryDetailDto;
 import com.example.demo.dto.Category.SmallCategoryDto;
+import com.example.demo.dto.Category.SmallCategoryListDto;
+import com.example.demo.entity.ItemEntity;
 import com.example.demo.entity.LargeCategoriesEntity;
 import com.example.demo.entity.MiddleCategoriesEntity;
 import com.example.demo.entity.SmallCategoriesEntity;
+import com.example.demo.repository.item.ItemRepository;
 import com.example.demo.repository.item.LargeCategoriesRepository;
 import com.example.demo.repository.item.MiddleCategoriesRepository;
 import com.example.demo.repository.item.SmallCategoriesRepository;
@@ -26,6 +32,9 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired
 	private SmallCategoriesRepository smallCategoriesRepository;
+
+	@Autowired
+	private ItemRepository itemRepository;
 
 	@Override
 	public List<LargeCategoryDto> getAllLargeCategories() {
@@ -86,4 +95,78 @@ public class CategoryServiceImpl implements CategoryService {
 		return dto;
 	}
 
+	@Override
+	public List<LargeCategoryListDto> getAllLargeList() {
+		return largeCategoriesRepository.findAll()
+				.stream()
+				.map(this::convertToLargeCategoryListDto)
+				.toList();
+	}
+
+	private LargeCategoryListDto convertToLargeCategoryListDto(
+			LargeCategoriesEntity entity) {
+
+		LargeCategoryListDto dto = new LargeCategoryListDto();
+
+		dto.setId(entity.getId());
+		dto.setLargeName(entity.getLargeName());
+		dto.setUpdatedAt(entity.getUpdatedAt());
+
+		return dto;
+	}
+
+	@Override
+	public List<MiddleCategoryListDto> getAllMiddleList() {
+		return middleCategoriesRepository.findAll()
+				.stream()
+				.map(this::convertToMiddleCategoryListDto)
+				.toList();
+	}
+
+	private MiddleCategoryListDto convertToMiddleCategoryListDto(
+			MiddleCategoriesEntity entity) {
+
+		MiddleCategoryListDto dto = new MiddleCategoryListDto();
+
+		dto.setId(entity.getId());
+		dto.setMiddleName(entity.getMiddleName());
+		dto.setUpdatedAt(entity.getUpdatedAt());
+
+		return dto;
+	}
+
+	@Override
+	public List<SmallCategoryListDto> getAllSmallList() {
+		return smallCategoriesRepository.findAll()
+				.stream()
+				.map(this::convertToSmallCategoryListDto)
+				.toList();
+	}
+
+	private SmallCategoryListDto convertToSmallCategoryListDto(
+			SmallCategoriesEntity entity) {
+
+		SmallCategoryListDto dto = new SmallCategoryListDto();
+
+		dto.setId(entity.getId());
+		dto.setSmallName(entity.getSmallName());
+		dto.setUpdatedAt(entity.getUpdatedAt());
+
+		return dto;
+	}
+
+	@Override
+	public List<SmallCategoryDetailDto> getSmallCategoryDetail(Long smallCategoryId) {
+		return itemRepository.findBySmallCategory_Id(smallCategoryId).stream()
+				.map(this::convertToSmallCategoryDetailDto)
+				.toList();
+	}
+
+	private SmallCategoryDetailDto convertToSmallCategoryDetailDto(ItemEntity item) {
+		SmallCategoryDetailDto dto = new SmallCategoryDetailDto();
+		dto.setId(item.getId());
+		dto.setItemName(item.getItemName());
+		dto.setUpdatedAt(item.getUpdatedAt());
+		return dto;
+	}
 }

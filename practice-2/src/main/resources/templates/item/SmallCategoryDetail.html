@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>小カテゴリ詳細</title>
+</head>
+
+<body>
+	<h1>小カテゴリ詳細</h1>
+
+	<table border="1">
+		<tr>
+			<th>商品ID</th>
+			<th>商品名</th>
+			<th>更新日時</th>
+		</tr>
+
+		<tr th:each="item : ${items}">
+			<td th:text="${item.Id}"></td>
+			<td th:text="${item.itemName}"></td>
+			<td th:text="${#dates.format(item.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+		</tr>
+	</table>
+
+	<a th:href="@{/categories/middle}">戻る</a>
+</body>
+
+</html>

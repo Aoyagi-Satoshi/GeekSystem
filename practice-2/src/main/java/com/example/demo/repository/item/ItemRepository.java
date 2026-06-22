@@ -29,4 +29,6 @@ public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
 			@Param("middleCategoryId") Long middleCategoryId,
 			@Param("smallCategoryId") Long smallCategoryId,
 			Pageable pageable);
+
+	List<ItemEntity> findBySmallCategory_Id(Long smallCategoryId);
 }
