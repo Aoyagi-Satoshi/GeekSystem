@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.entity.SmallCategoriesEntity;
 
 public interface SmallCategoriesRepository extends JpaRepository<SmallCategoriesEntity, Long> {
-	List<SmallCategoriesEntity> findByMiddleCategoryId(Long middleCategoryId);
+	List<SmallCategoriesEntity> findByMiddleCategory_Id(Long middleCategoryId);
 }

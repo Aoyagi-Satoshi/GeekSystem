@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
 	<title>中カテゴリ一覧</title>
 </head>
 
@@ -16,18 +18,17 @@
 			<th></th>
 		</tr>
 
-		<tr th:each="category : ${categories}">
-			<td th:text="${category.id}"></td>
-			<td th:text="${category.middleName}"></td>
-			<td th:text="${#dates.format(category.updatedAt,'yyyy-MM-dd HH:mm:ss')}"></td>
+		<tr th:each="middle : ${middleCategories}">
+			<td th:text="${middle.id}"></td>
+			<td th:text="${middle.middleName}"></td>
+			<td th:text="${#dates.format(middle.updatedAt,'yyyy-MM-dd HH:mm:ss')}"></td>
 			<td>
-				<a th:href="@{/categories/smalls/{id}(id=${category.id})}">
-					詳細
-				</a>
+				<a th:href="@{/categories/smalls/{id}(id=${middle.id})}">詳細</a>
 			</td>
 		</tr>
-	</table>
 
+	</table>
+	<a th:href="@{/categories}">戻る</a>
 	<a th:href="@{/top}">TOPに戻る</a>
 </body>
 

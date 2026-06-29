@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
 	<title>商品一覧</title>
 </head>
 
@@ -11,36 +13,30 @@
 		<label for="itemName">商品名</label>
 		<input type="text" id="itemName" name="itemName" th:value="${itemName}">
 		<label for="largeCategoryId">大カテゴリ</label>
-			<select name="largeCategoryId" id="largeCategoryId">
-				<option value=""></option>
-				<option th:each="large : ${largeCategoryList}"
-						th:value="${large.id}"
-						th:text="${large.largeName}"
-						th:selected="${largeCategoryId != null and largeCategoryId == large.id}">
-				</option>
-			</select>
+		<select name="largeCategoryId" id="largeCategoryId">
+			<option value=""></option>
+			<option th:each="large : ${largeCategoryList}" th:value="${large.id}" th:text="${large.largeName}"
+				th:selected="${largeCategoryId != null and largeCategoryId == large.id}">
+			</option>
+		</select>
 
-			<label for="middleCategoryId">中カテゴリ</label>
-			<select name="middleCategoryId" id="middleCategoryId">
-				<option value=""></option>
-				<option th:each="middle : ${middleCategoryList}"
-				        th:value="${middle.id}"
-				        th:text="${middle.middleName}"
-				        th:attr="data-large-id=${middle.largeCategoryId}"
-				        th:selected="${middleCategoryId != null and middleCategoryId == middle.id}">
-				</option>
-			</select>
+		<label for="middleCategoryId">中カテゴリ</label>
+		<select name="middleCategoryId" id="middleCategoryId">
+			<option value=""></option>
+			<option th:each="middle : ${middleCategoryList}" th:value="${middle.id}" th:text="${middle.middleName}"
+				th:attr="data-large-id=${middle.largeCategoryId}"
+				th:selected="${middleCategoryId != null and middleCategoryId == middle.id}">
+			</option>
+		</select>
 
-			<label for="smallCategoryId">小カテゴリ</label>
-			<select name="smallCategoryId" id="smallCategoryId">
-				<option value=""></option>
-				<option th:each="small : ${smallCategoryList}"
-				        th:value="${small.id}"
-				        th:text="${small.smallName}"
-				        th:attr="data-middle-id=${small.middleCategoryId}, data-large-id=${small.largeCategoryId}"
-				        th:selected="${smallCategoryId != null and smallCategoryId == small.id}">
-				</option>
-			</select>
+		<label for="smallCategoryId">小カテゴリ</label>
+		<select name="smallCategoryId" id="smallCategoryId">
+			<option value=""></option>
+			<option th:each="small : ${smallCategoryList}" th:value="${small.id}" th:text="${small.smallName}"
+				th:attr="data-middle-id=${small.middleCategoryId}, data-large-id=${small.largeCategoryId}"
+				th:selected="${smallCategoryId != null and smallCategoryId == small.id}">
+			</option>
+		</select>
 
 		<button type="submit">検索</button>
 		<a th:href="@{/items}">クリア</a>
@@ -70,8 +66,7 @@
 		<ul>
 			<li th:class="${page.first} ? 'disabled' : ''" style="display:inline">
 				<span th:if="${page.first}">←前</span>
-				<a th:if="${not page.first}"
-					th:href="@{/items(page=${page.number - 1}, itemName=${itemName})}">←前</a>
+				<a th:if="${not page.first}" th:href="@{/items(page=${page.number - 1}, itemName=${itemName})}">←前</a>
 			</li>
 
 			<li th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"

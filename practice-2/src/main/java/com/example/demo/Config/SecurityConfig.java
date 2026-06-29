@@ -19,9 +19,14 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 				.authorizeHttpRequests(authorizeRequests -> authorizeRequests
-						
-						.requestMatchers("/login").permitAll()
-						.anyRequest().authenticated())
+						.requestMatchers(
+								"/login",
+								"/css/**",
+								"/js/**",
+								"/images/**")
+						.permitAll()
+						.anyRequest()
+						.authenticated())
 				.formLogin(formLogin -> formLogin
 						.loginPage("/login")
 						.usernameParameter("email")
@@ -32,7 +37,7 @@ public class SecurityConfig {
 						.logoutUrl("/logout")
 						.logoutSuccessUrl("/login?logout")
 						.permitAll());
+
 		return http.build();
 	}
-
 }
