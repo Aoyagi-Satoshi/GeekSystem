@@ -59,14 +59,14 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<MiddleCategoryDto> getMiddleCategoriesByLargeId(Long largeCategoryId) {
-		return middleCategoriesRepository.findByLargeCategoryId(largeCategoryId).stream()
+		return middleCategoriesRepository.findByLargeCategory_Id(largeCategoryId).stream()
 				.map(this::convertToMiddleCategoryDto)
 				.toList();
 	}
 
 	@Override
 	public List<SmallCategoryDto> getSmallCategoriesByMiddleId(Long middleCategoryId) {
-		return smallCategoriesRepository.findByMiddleCategoryId(middleCategoryId).stream()
+		return smallCategoriesRepository.findByMiddleCategory_Id(middleCategoryId).stream()
 				.map(this::convertToSmallCategoryDto)
 				.toList();
 	}
@@ -116,8 +116,8 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<MiddleCategoryListDto> getAllMiddleList() {
-		return middleCategoriesRepository.findAll()
+	public List<MiddleCategoryListDto> getMiddleListByLargeId(Long largeCategoryId) {
+		return middleCategoriesRepository.findByLargeCategory_Id(largeCategoryId)
 				.stream()
 				.map(this::convertToMiddleCategoryListDto)
 				.toList();
@@ -136,8 +136,8 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<SmallCategoryListDto> getAllSmallList() {
-		return smallCategoriesRepository.findAll()
+	public List<SmallCategoryListDto> getSmallListByMiddleId(Long middleCategoryId) {
+		return smallCategoriesRepository.findByMiddleCategory_Id(middleCategoryId)
 				.stream()
 				.map(this::convertToSmallCategoryListDto)
 				.toList();
@@ -168,5 +168,21 @@ public class CategoryServiceImpl implements CategoryService {
 		dto.setItemName(item.getItemName());
 		dto.setUpdatedAt(item.getUpdatedAt());
 		return dto;
+	}
+
+	@Override
+	public Long getLargeCategoryIdByMiddleCategoryId(Long middleCategoryId) {
+		MiddleCategoriesEntity middle = middleCategoriesRepository.findById(middleCategoryId)
+				.orElseThrow();
+
+		return middle.getLargeCategory().getId();
+	}
+
+	@Override
+	public Long getMiddleCategoryIdBySmallCategoryId(Long smallCategoryId) {
+		SmallCategoriesEntity small = smallCategoriesRepository.findById(smallCategoryId)
+				.orElseThrow();
+
+		return small.getMiddleCategory().getId();
 	}
 }

@@ -23,30 +23,38 @@ public class CategoryController {
 		return "item/LargeCategoryList";
 	}
 
-	@GetMapping("/categories/middles/{id}")
-	public String middleCategoryList(Model model) {
-
-		model.addAttribute(
-				"categories",
-				categoryService.getAllMiddleList());
+	@GetMapping("/categories/middles/{largeCategoryId}")
+	public String middleList(@PathVariable Long largeCategoryId, Model model) {
+		model.addAttribute("middleCategories",
+				categoryService.getMiddleListByLargeId(largeCategoryId));
 
 		return "item/MiddleCategoryList";
 	}
 
-	@GetMapping("/categories/smalls/{id}")
-	public String smallCategoryList(Model model) {
+	@GetMapping("/categories/smalls/{middleCategoryId}")
+	public String smallList(@PathVariable Long middleCategoryId, Model model) {
 
-		model.addAttribute(
-				"categories",
-				categoryService.getAllSmallList());
+		model.addAttribute("smallCategories",
+				categoryService.getSmallListByMiddleId(middleCategoryId));
+
+		Long largeCategoryId = categoryService.getLargeCategoryIdByMiddleCategoryId(middleCategoryId);
+
+		model.addAttribute("largeCategoryId", largeCategoryId);
 
 		return "item/SmallCategoryList";
 	}
 
-	@GetMapping("/categories/smallDetail/{id}")
-	public String smallCategoryDetail(@PathVariable Long id, Model model) {
+	@GetMapping("/categories/smallDetail/{smallCategoryId}")
+	public String smallCategoryDetail(
+			@PathVariable Long smallCategoryId,
+			Model model) {
 
-		model.addAttribute("items", categoryService.getSmallCategoryDetail(id));
+		model.addAttribute("items",
+				categoryService.getSmallCategoryDetail(smallCategoryId));
+
+		Long middleCategoryId = categoryService.getMiddleCategoryIdBySmallCategoryId(smallCategoryId);
+
+		model.addAttribute("middleCategoryId", middleCategoryId);
 
 		return "item/SmallCategoryDetail";
 	}

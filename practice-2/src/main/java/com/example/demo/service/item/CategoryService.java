@@ -23,9 +23,13 @@ public interface CategoryService {
 
 	List<LargeCategoryListDto> getAllLargeList();
 
-	List<MiddleCategoryListDto> getAllMiddleList();
+	List<MiddleCategoryListDto> getMiddleListByLargeId(Long largeCategoryId);
 
-	List<SmallCategoryListDto> getAllSmallList();
+	List<SmallCategoryListDto> getSmallListByMiddleId(Long middleCategoryId);
 
 	List<SmallCategoryDetailDto> getSmallCategoryDetail(Long smallCategoryId);
+
+	Long getLargeCategoryIdByMiddleCategoryId(Long middleCategoryId);
+
+	Long getMiddleCategoryIdBySmallCategoryId(Long smallCategoryId);
 }
