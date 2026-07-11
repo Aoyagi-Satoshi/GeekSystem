@@ -8,8 +8,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -26,20 +24,21 @@ public class StoreItemEntity {
 	@Column(name = "id")
 	private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "fk_store_id")
-	private StoreEntity store;
 
-	@ManyToOne
-	@JoinColumn(name = "fk_item_id")
-	private ItemEntity item;
+	@Column(name = "store_id",nullable = false)
+	private int storeId;
+	
+	
+	@Column(name = "item_id", nullable = false)
+	private int itemId;
 
-	@Column(name = "store_price", nullable = false)
-	private BigDecimal storePrice;
 
-	@Column(name = "stock", nullable = false)
+	@Column(name = "store_price",nullable = false)
+	private BigDecimal StorePrice;
+	
+	@Column(name = "stock",nullable = false)
 	private int stock;
-
+	
 	@CreationTimestamp
 	@Column(name = "created_at", nullable = false)
 	private Timestamp createdAt;

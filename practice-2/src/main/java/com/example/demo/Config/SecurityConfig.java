@@ -1,43 +1,35 @@
 package com.example.demo.Config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+
 
 @Configuration
+@EnableAspectJAutoProxy
 public class SecurityConfig {
 
-	@Bean
+	/**@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
-	}
+	}*/
 
-	@Bean
+	/**
+	 * @Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 				.authorizeHttpRequests(authorizeRequests -> authorizeRequests
-						.requestMatchers(
-								"/login",
-								"/css/**",
-								"/js/**",
-								"/images/**")
-						.permitAll()
-						.anyRequest()
-						.authenticated())
+						.requestMatchers("/admin/signup", "/admin/signin").permitAll()
+						.anyRequest().authenticated())
 				.formLogin(formLogin -> formLogin
-						.loginPage("/login")
+						.loginPage("/admin/signin")
 						.usernameParameter("email")
 						.passwordParameter("password")
-						.defaultSuccessUrl("/top", true)
+						.defaultSuccessUrl("/admin/contacts", true)
 						.permitAll())
 				.logout(logout -> logout
-						.logoutUrl("/logout")
-						.logoutSuccessUrl("/login?logout")
+						.logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout"))
+						.logoutSuccessUrl("/admin/signin?logout")
 						.permitAll());
-
 		return http.build();
-	}
+	}*/
 }

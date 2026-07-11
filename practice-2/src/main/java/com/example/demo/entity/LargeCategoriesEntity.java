@@ -24,7 +24,7 @@ public class LargeCategoriesEntity {
 	@Column(name = "id")
 	private Long id;
 	
-	@Column(name = "large_name", nullable = false)
+	@Column(name = "large_name",nullable = false)
 	private String largeName;
 	
 	@CreationTimestamp
