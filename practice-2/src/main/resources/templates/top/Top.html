@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<title>TOP画面</title>
+</head>
+
+<body>
+
+	<h1>TOP画面</h1>
+
+	<div>
+		<button onclick="location.href='/profile'">プロフィール</button>
+	</div>
+
+	<div>
+		<button onclick="location.href='/stores'">店舗一覧</button>
+	</div>
+
+	<div>
+		<button onclick="location.href='/admins'">管理者一覧</button>
+	</div>
+
+	<div>
+		<button onclick="location.href='/items'">商品一覧</button>
+	</div>
+
+	<div>
+		<button onclick="location.href='/orders'">商品発注履歴</button>
+	</div>
+
+	<div>
+		<button onclick="location.href='/makers'">メーカー一覧</button>
+	</div>
+
+	<div>
+		<button onclick="location.href='/categories'">カテゴリ一覧</button>
+	</div>
+
+	<hr>
+
+	<form th:action="@{/logout}" method="post">
+		<button type="submit">ログアウト</button>
+	</form>
+
+</body>
+
+</html>

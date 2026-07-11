@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<title>小カテゴリ一覧</title>
+</head>
+
+<body>
+	<h1>小カテゴリ一覧</h1>
+
+	<table border="1">
+		<tr>
+			<th>小カテゴリID</th>
+			<th>小カテゴリ名</th>
+			<th>更新日時</th>
+			<th></th>
+		</tr>
+
+		<tr th:each="small : ${smallCategories}">
+			<td th:text="${small.id}"></td>
+			<td th:text="${small.smallName}"></td>
+			<td th:text="${#dates.format(small.updatedAt,'yyyy-MM-dd HH:mm:ss')}"></td>
+			<td>
+				<a th:href="@{/categories/smallDetail/{id}(id=${small.id})}">詳細</a>
+			</td>
+		</tr>
+	</table>
+	<a th:href="@{/categories/middles/{id}(id=${largeCategoryId})}">戻る</a>
+	<a th:href="@{/top}">TOPに戻る</a>
+</body>
+
+</html>
