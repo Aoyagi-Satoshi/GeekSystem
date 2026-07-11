@@ -23,13 +23,14 @@ public class StoreEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-
-	@Column(name = "store_name", nullable = false)
+	
+	@Column(name = "store_name",nullable = false)
 	private String storeName;
 
-	@Column(name = "address", nullable = false)
+	
+	@Column(name = "address",nullable = false)
 	private String address;
-
+	
 	@CreationTimestamp
 	@Column(name = "created_at", nullable = false)
 	private Timestamp createdAt;
@@ -38,3 +39,4 @@ public class StoreEntity {
 	@Column(name = "updated_at", nullable = false)
 	private Timestamp updatedAt;
 }
+
