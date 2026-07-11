@@ -8,7 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -25,14 +27,12 @@ public class ItemEntity {
 	@Column(name = "id")
 	private Long id;
 
+	@ManyToOne
+	@JoinColumn(name = "fk_small_id")
+	private SmallCategoriesEntity smallCategory;
 
-	@Column(name = "fk_small_id",nullable = false)
-	private int smallId;
-	
-	
 	@Column(name = "item_name", nullable = false)
 	private String itemName;
-
 	@Column(name = "item_info")
 	private String itemInfo;
 
@@ -40,15 +40,16 @@ public class ItemEntity {
 	@Column(name = "image")
 	private byte[] image;
 
-	@Column(name = "cost_price",nullable = false)
+	@Column(name = "cost_price", nullable = false)
 	private BigDecimal costPrice;
-	
-	@Column(name = "fk_maker_id",nullable = false)
-	private int makerId;
-	
-	@Column(name = "maker_price",nullable = false)
+
+	@ManyToOne
+	@JoinColumn(name = "fk_maker_id")
+	private MakerEntity maker;
+
+	@Column(name = "maker_price", nullable = false)
 	private BigDecimal makerPrice;
-	
+
 	@CreationTimestamp
 	@Column(name = "created_at", nullable = false)
 	private Timestamp createdAt;

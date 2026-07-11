@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -23,12 +25,14 @@ public class OrderHistoryEntity {
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "fk_admin_id",nullable = false)
-	private int adminId;
-	
-	@Column(name = "fk_store_item_id",nullable = false)
-	private int storeItemId;
-	
+	@ManyToOne
+	@JoinColumn(name = "fk_admin_id", nullable = false)
+	private AdminEntity admin;
+
+	@ManyToOne
+	@JoinColumn(name = "fk_store_item_id", nullable = false)
+	private StoreItemEntity storeItem;
+
 	@Column(name = "order_count", nullable = false)
 	private int orderCount;
 

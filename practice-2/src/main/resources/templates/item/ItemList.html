@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<title>商品一覧</title>
+</head>
+
+<body>
+	<h1>商品一覧</h1>
+	<form th:action="@{/items}" method="get">
+		<label for="itemName">商品名</label>
+		<input type="text" id="itemName" name="itemName" th:value="${itemName}">
+		<label for="largeCategoryId">大カテゴリ</label>
+		<select name="largeCategoryId" id="largeCategoryId">
+			<option value=""></option>
+			<option th:each="large : ${largeCategoryList}" th:value="${large.id}" th:text="${large.largeName}"
+				th:selected="${largeCategoryId != null and largeCategoryId == large.id}">
+			</option>
+		</select>
+
+		<label for="middleCategoryId">中カテゴリ</label>
+		<select name="middleCategoryId" id="middleCategoryId">
+			<option value=""></option>
+			<option th:each="middle : ${middleCategoryList}" th:value="${middle.id}" th:text="${middle.middleName}"
+				th:attr="data-large-id=${middle.largeCategoryId}"
+				th:selected="${middleCategoryId != null and middleCategoryId == middle.id}">
+			</option>
+		</select>
+
+		<label for="smallCategoryId">小カテゴリ</label>
+		<select name="smallCategoryId" id="smallCategoryId">
+			<option value=""></option>
+			<option th:each="small : ${smallCategoryList}" th:value="${small.id}" th:text="${small.smallName}"
+				th:attr="data-middle-id=${small.middleCategoryId}, data-large-id=${small.largeCategoryId}"
+				th:selected="${smallCategoryId != null and smallCategoryId == small.id}">
+			</option>
+		</select>
+
+		<button type="submit">検索</button>
+		<a th:href="@{/items}">クリア</a>
+	</form>
+	<table border="1">
+		<tr>
+			<th>商品ID</th>
+			<th>商品名</th>
+			<th>小カテゴリー</th>
+			<th>仕入原価</th>
+		</tr>
+
+		<tr th:each="item : ${itemlist}">
+			<td th:text="${item.id}"></td>
+			<td th:text="${item.itemName}"></td>
+			<td th:text="${item.smallCategoryName}"></td>
+			<td th:text="${#numbers.formatInteger(item.costPrice, 1, 'COMMA')}"></td>
+
+			<td>
+				<a th:href="@{/item/{id}(id=${item.id})}">詳細</a>
+				<a th:href="@{/item/{id}/haccyu(id=${item.id})}">発注</a>
+			</td>
+		</tr>
+	</table>
+
+	<div th:if="${page.totalPages > 0}">
+		<ul>
+			<li th:class="${page.first} ? 'disabled' : ''" style="display:inline">
+				<span th:if="${page.first}">←前</span>
+				<a th:if="${not page.first}" th:href="@{/items(page=${page.number - 1}, itemName=${itemName})}">←前</a>
+			</li>
+
+			<li th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+				th:class="${i == page.number} ? 'active' : ''" style="display:inline">
+				<span th:if="${i == page.number}" th:text="${i + 1}">1</span>
+				<a th:if="${i != page.number}" th:href="@{/items(page=${i}, itemName=${itemName})}">
+					<span th:text="${i + 1}">1</span>
+				</a>
+			</li>
+
+			<li th:class="${page.last} ? 'disabled' : ''" style="display:inline">
+				<span th:if="${page.last}">次➝</span>
+				<a th:if="${not page.last}" th:href="@{/items(page=${page.number + 1}, itemName=${itemName})}">次➝</a>
+			</li>
+		</ul>
+	</div>
+
+	<a th:href="@{/top}">Topに戻る</a>
+	<script th:src="@{/js/category.js}"></script>
+</body>
+
+</html>

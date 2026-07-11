@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<title>店舗編集確認画面</title>
+</head>
+
+<body>
+	<h1>編集内容確認</h1>
+	<form th:action="@{/store/update}" th:object="${StoreEditForm}" method="post">
+		<input type="hidden" name="method" value="put">
+		<input type="hidden" th:field="*{id}">
+		<input type="hidden" th:field="*{storeName}">
+		<input type="hidden" th:field="*{address}">
+		<table border="1">
+			<tr>
+				<td>店舗名</td>
+				<td>
+					<span th:text="*{storeName}"></span>
+				</td>
+			</tr>
+			<tr>
+				<td>住所</td>
+				<td>
+					<span th:text="*{address}"></span>
+				</td>
+			</tr>
+
+			</tr>
+		</table>
+		<input type="submit" value="更新">
+	</form>
+
+</body>
