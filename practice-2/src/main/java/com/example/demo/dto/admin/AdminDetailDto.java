@@ -11,5 +11,4 @@ public class AdminDetailDto {
 	private String phone;
 	private String storeName;
 	private String roleName;
-	private String permissionName;
 }

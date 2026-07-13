@@ -121,9 +121,7 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
 		dto.setId(admin.getId());
 		dto.setLastName(admin.getLastName());
 		dto.setFirstName(admin.getFirstName());
-		dto.setEmail(admin.getEmail());
 		dto.setStoreName(admin.getStore().getStoreName());
-		dto.setRoleName(admin.getRole().getRoleName());
 		dto.setCreatedAt(admin.getCreatedAt());
 		dto.setUpdatedAt(admin.getUpdatedAt());
 		return dto;
@@ -147,7 +145,6 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
 		dto.setPhone(admin.getPhone());
 		dto.setStoreName(admin.getStore().getStoreName());
 		dto.setRoleName(admin.getRole().getRoleName());
-		dto.setPermissionName(admin.getPermission().getPermissionName());
 		return dto;
 	}
 

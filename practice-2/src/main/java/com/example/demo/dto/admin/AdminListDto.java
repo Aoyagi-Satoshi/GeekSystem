@@ -9,9 +9,7 @@ public class AdminListDto {
 	private Long id;
 	private String lastName;
 	private String firstName;
-	private String email;
 	private String storeName;
-	private String roleName;
 	private Timestamp createdAt;
 	private Timestamp updatedAt;
 }
