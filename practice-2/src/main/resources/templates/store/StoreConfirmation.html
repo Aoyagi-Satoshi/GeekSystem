@@ -10,7 +10,7 @@
 <body>
 	<h1>編集内容確認</h1>
 	<form th:action="@{/store/update}" th:object="${StoreEditForm}" method="post">
-		<input type="hidden" name="method" value="put">
+		<input type="hidden" name="_method" value="put">
 		<input type="hidden" th:field="*{id}">
 		<input type="hidden" th:field="*{storeName}">
 		<input type="hidden" th:field="*{address}">
@@ -26,9 +26,7 @@
 				<td>
 					<span th:text="*{address}"></span>
 				</td>
-			</tr>
 
-			</tr>
 		</table>
 		<input type="submit" value="更新">
 	</form>

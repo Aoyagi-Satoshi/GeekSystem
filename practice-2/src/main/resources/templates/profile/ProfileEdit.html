@@ -12,6 +12,7 @@
 
 
 	<form th:action="@{/profile/edit}" th:object="${profileForm}" method="post">
+		<input type="hidden" name="_method" value="put">
 		<table border="1">
 			<tr>
 				<td>姓</td>
