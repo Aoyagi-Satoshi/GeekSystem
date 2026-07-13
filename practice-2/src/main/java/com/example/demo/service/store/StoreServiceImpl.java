@@ -54,8 +54,6 @@ public class StoreServiceImpl implements StoreService {
 		dto.setId(store.getId());
 		dto.setStoreName(store.getStoreName());
 		dto.setAddress(store.getAddress());
-		dto.setCreatedAt(store.getCreatedAt());
-		dto.setUpdatedAt(store.getUpdatedAt());
 		return dto;
 	}
 

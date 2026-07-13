@@ -9,6 +9,4 @@ public class StoreListDto {
 	private Long id;
 	private String storeName;
 	private String address;
-	private Timestamp createdAt;
-	private Timestamp updatedAt;
 }
