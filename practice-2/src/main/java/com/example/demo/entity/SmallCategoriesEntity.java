@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -23,13 +25,14 @@ public class SmallCategoriesEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	
-	@Column(name = "middle_id",nullable = false)
-	private int middllId;
-	
-	@Column(name = "small_name",nullable = false)
+
+	@ManyToOne
+	@JoinColumn(name = "fk_middle_id", nullable = false)
+	private MiddleCategoriesEntity middleCategory;
+
+	@Column(name = "small_name", nullable = false)
 	private String smallName;
-	
+
 	@CreationTimestamp
 	@Column(name = "created_at", nullable = false)
 	private Timestamp createdAt;
@@ -38,4 +41,3 @@ public class SmallCategoriesEntity {
 	@Column(name = "updated_at", nullable = false)
 	private Timestamp updatedAt;
 }
-
