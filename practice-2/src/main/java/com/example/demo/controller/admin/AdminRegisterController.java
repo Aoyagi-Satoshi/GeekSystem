@@ -76,7 +76,7 @@ public class AdminRegisterController {
 
 		adminService.saveAdmin(adminForm);
 
-		return "redirect:/admins/list";
+		return "redirect:/admins";
 	}
 
 }
